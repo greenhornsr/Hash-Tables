@@ -15,6 +15,7 @@ class HashTable:
     def __init__(self, capacity):
         self.capacity = capacity  # Number of buckets in the hash table
         self.storage = [None] * capacity
+        self.count = 0
 
 
     def _hash(self, key):
@@ -23,6 +24,8 @@ class HashTable:
 
         You may replace the Python hash with DJB2 as a stretch goal.
         '''
+        # print(hash(key))
+        # breakpoint()
         return hash(key)
 
 
@@ -51,7 +54,13 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        # if self.count <= self.capacity:
+        hashed_k = self._hash_mod(key)
+        self.storage[hashed_k] = value
+        self.count += 1
+            # return 
+        # breakpoint()
+        # pass
 
 
 
@@ -63,7 +72,7 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        
 
 
     def retrieve(self, key):
@@ -74,7 +83,8 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        hashed_k = self._hash_mod(key)
+        return self.storage[hashed_k]
 
 
     def resize(self):
