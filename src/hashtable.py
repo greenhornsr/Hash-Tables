@@ -95,12 +95,42 @@ class HashTable:
 
         Fill this in.
         '''
+        # hash key
         hashed_k = self._hash_mod(key)
+        # reference to node in LL of hashed key
+        node = self.storage[hashed_k]
+        # initialize temp var for holding previous node.
+        prev = None 
 
-        if not self.storage[hashed_k]:
-            return f"ERROR: key not found!"
+        # while node isnt empty and the key in the LL does NOT match the requested key, traverse
+        while node is not None and node.key != key:
+            # hold the current node
+            prev = node
+            # assign node to next
+            node = node.next
+            # the node should now evaluate to either the FOUND node or None.
 
-        del self.storage[hashed_k]
+        if node is None: 
+            # print or return?
+            print(f"ERROR: {key} not found.")
+
+        else: 
+            self.count -= 1
+            found_node = node.value
+            
+            if prev is None:
+                node = None
+            
+            else: 
+                # point prev.next (deleted node pointer) to NEXT NEXT node from the KNOWN prev node
+                # i.e. p = prev node, d = deleted node, n = next node
+                # p -> d -> n
+                #  next next
+                # p ->   -> n
+                prev.next = prev.next.next 
+            
+            return found_node
+
 
 
 
