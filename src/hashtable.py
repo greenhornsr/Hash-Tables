@@ -51,6 +51,9 @@ class HashTable:
         Store the value with the given key.
 
         Hash collisions should be handled with Linked List Chaining.
+        '___________________________________________________________
+        |         |         |         |         |         |         |
+        |_________|_________|_________|_________|_________|_________|
 
         Fill this in.
         '''
@@ -68,22 +71,26 @@ class HashTable:
             # create node, add it to location of hashed key
             self.storage[hashed_k] = LinkedPair(key, value)
             return
-
-        # HANDLE Collision 
-        # assign node to temp var
-        prev = node
-        
-        # while the insertion node location is occupied, 
-        while node is not None: 
-            # hold current node in prev so once the node with None is found we can create the node and assign
+        else: 
+            print(f"WARNING: Collision has occurred at {hashed_k}.")
+            # HANDLE Collision 
+            # assign node to temp var
             prev = node
-            # assign node to next node in LL
-            node = node.next
-        
-        # once node IS None, create the node and assign it to the next None node...aka add to end of LL
-        prev.next = LinkedPair(key, value)
-        # breakpoint()
-        # pass
+            # while the insertion basket location is occupied, 
+            while node is not None: 
+                # check if key already exists in the event of an overwrite
+                if node.key is key:
+                    node.key = LinkedPair(key, value)
+                    break 
+                # hold current node in prev so once the node with None is found we can create the node and assign
+                prev = node
+                # assign node to next node in LL
+                node = node.next
+            
+            # once node IS None, create the node and assign it to the next None node...aka add to end of LL
+            prev.next = LinkedPair(key, value)
+            # breakpoint()
+            # pass
 
 
 
@@ -120,7 +127,8 @@ class HashTable:
             
             if prev is None:
                 node = None
-            
+                return None
+
             else: 
                 # point prev.next (deleted node pointer) to NEXT NEXT node from the KNOWN prev node
                 # i.e. p = prev node, d = deleted node, n = next node
@@ -169,10 +177,13 @@ class HashTable:
 
         Fill this in.
         '''
-        if self.count != self.capacity:
-            return f"ERROR: Max capacity hasn't been reached: {self.capacity}"
-        
+        old_storage = self.storage 
+        self.capacity *= 2
         self.storage = [None] * self.capacity
+        
+        for item in old_storage:
+            print(item.key)
+            self.insert(item.key, item.value)
 
 
 
