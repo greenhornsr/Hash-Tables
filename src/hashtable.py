@@ -54,11 +54,34 @@ class HashTable:
 
         Fill this in.
         '''
-        # if self.count <= self.capacity:
-        hashed_k = self._hash_mod(key)
-        self.storage[hashed_k] = value
+        # increment count
         self.count += 1
-            # return 
+
+        # hash the key
+        hashed_k = self._hash_mod(key)
+
+        # create way to go to node corresponding to the hashed key
+        node = self.storage[hashed_k]
+
+        # checking if bucket location is empty
+        if node is None:
+            # create node, add it to location of hashed key
+            self.storage[hashed_k] = LinkedPair(key, value)
+            return
+
+        # HANDLE Collision 
+        # assign node to temp var
+        prev = node
+        
+        # while the insertion node location is occupied, 
+        while node is not None: 
+            # hold current node in prev so once the node with None is found we can create the node and assign
+            prev = node
+            # assign node to next node in LL
+            node = node.next
+        
+        # once node IS None, create the node and assign it to the next None node...aka add to end of LL
+        prev.next = LinkedPair(key, value)
         # breakpoint()
         # pass
 
@@ -72,7 +95,14 @@ class HashTable:
 
         Fill this in.
         '''
-        
+        hashed_k = self._hash_mod(key)
+
+        if not self.storage[hashed_k]:
+            return f"ERROR: key not found!"
+
+        del self.storage[hashed_k]
+
+
 
 
     def retrieve(self, key):
@@ -83,8 +113,23 @@ class HashTable:
 
         Fill this in.
         '''
+        # hash key
         hashed_k = self._hash_mod(key)
-        return self.storage[hashed_k]
+
+        # got to storage node
+        node = self.storage[hashed_k]
+
+        # traverse LL at node
+        while node is not None and node.key != key:
+            node = node.next
+        
+        # if node is None, return None
+        if node is None:
+            return None
+        
+        # if node is found, return Node VALUE
+        else: 
+            return node.value
 
 
     def resize(self):
@@ -94,7 +139,10 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        if self.count != self.capacity:
+            return f"ERROR: Max capacity hasn't been reached: {self.capacity}"
+        
+        self.storage = [None] * self.capacity
 
 
 
