@@ -72,7 +72,7 @@ class HashTable:
             self.storage[hashed_k] = LinkedPair(key, value)
             return
         else: 
-            print(f"WARNING: Collision has occurred at {hashed_k}.")
+            # print(f"WARNING: Collision has occurred at {hashed_k}.")
             # HANDLE Collision 
             # assign node to temp var
             prev = node
@@ -108,7 +108,6 @@ class HashTable:
         node = self.storage[hashed_k]
         # initialize temp var for holding previous node.
         prev = None 
-
         # while node isnt empty and the key in the LL does NOT match the requested key, traverse
         while node is not None and node.key != key:
             # hold the current node
@@ -116,19 +115,18 @@ class HashTable:
             # assign node to next
             node = node.next
             # the node should now evaluate to either the FOUND node or None.
-
         if node is None: 
             # print or return?
             print(f"ERROR: {key} not found.")
-
+            return
         else: 
             self.count -= 1
             found_node = node.value
             
             if prev is None:
-                node = None
-                return None
-
+                self.storage[hashed_k] = node.next
+                return
+                
             else: 
                 # point prev.next (deleted node pointer) to NEXT NEXT node from the KNOWN prev node
                 # i.e. p = prev node, d = deleted node, n = next node
@@ -180,10 +178,15 @@ class HashTable:
         old_storage = self.storage 
         self.capacity *= 2
         self.storage = [None] * self.capacity
-        
+        print("\n")
         for item in old_storage:
-            print(item.key)
-            self.insert(item.key, item.value)
+            while item is not None:
+                print(f"Key: {item.key}, Value: {item.value}")
+                # print(item.key)
+                self.insert(item.key, item.value)
+                item = item.next
+
+
 
 
 
