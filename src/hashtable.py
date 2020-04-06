@@ -51,8 +51,6 @@ class HashTable:
 
         Fill this in.
         '''
-        if len(self.storage) > (self.capacity / 2):
-            self.resize()
         index = self._hash_mod(key)
         self.storage[index] = (key, value)  
 
@@ -83,7 +81,7 @@ class HashTable:
         index = self._hash_mod(key)
         if self.storage[index] and self.storage[index] is not None:
             # return self.storage[index][0], self.storage[index][1]
-            print(f"key: {self.storage[index][0]}, value: {self.storage[index][1]}")
+            # print(f"key: {self.storage[index][0]}, value: {self.storage[index][1]}")
             return f"key: {self.storage[index][0]}, value: {self.storage[index][1]}"
 
 
@@ -98,7 +96,8 @@ class HashTable:
         self.capacity *= 2
         self.storage = [None] * self.capacity
         for item in old_storage:
-            self.insert(item[0], item[1])
+            # if item is not None:
+                self.insert(item[0], item[1])
 
 
 if __name__ == "__main__":
