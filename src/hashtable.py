@@ -51,8 +51,10 @@ class HashTable:
 
         Fill this in.
         '''
+        if len(self.storage) > (self.capacity / 2):
+            self.resize()
         index = self._hash_mod(key)
-        self.storage[index] = (key, value)     
+        self.storage[index] = (key, value)  
 
 
     def remove(self, key):
