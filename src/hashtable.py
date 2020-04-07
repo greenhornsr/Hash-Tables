@@ -121,7 +121,7 @@ class HashTable:
             self.count -= 1
             found_node = node.value
 
-            # if temp var hasn't changed from initial declaration of None, reassign pointer to next node; effectively removing the matching first node.
+            # if temp var hasn't changed from initial declaration of None, this means the first node.key matched.  reassign self.storage[index] pointer to next node; effectively removing the matching first node from the Linked List.
             if prev is None:
                 self.storage[index] = node.next
                 return
