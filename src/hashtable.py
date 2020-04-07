@@ -117,9 +117,11 @@ class HashTable:
             return 
         # Found the node; remove it
         else: 
+            # decrement count, declare var holding found node value.
             self.count -= 1
             found_node = node.value
 
+            # if temp var hasn't changed from initial declaration of None, reassign pointer to next node; effectively removing the matching first node.
             if prev is None:
                 self.storage[index] = node.next
                 return
