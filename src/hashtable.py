@@ -161,16 +161,20 @@ class HashTable:
         while node is not None and node.key != key:
             node = node.next
 
+        # if node is None, return None
+        if node is None:
+            return None
+
         # if node found, return the node value
         else: 
             print(f"FOUND IT!  Key: {node.key}, Value: {node.value}.")
             return node.value
 
 
-        if self.storage[index] and self.storage[index] is not None:
+        # if self.storage[index] and self.storage[index] is not None:
             # return self.storage[index][0], self.storage[index][1]
             # print(f"key: {self.storage[index][0]}, value: {self.storage[index][1]}")
-            return f"key: {self.storage[index][0]}, value: {self.storage[index][1]}"
+            # return f"key: {self.storage[index][0]}, value: {self.storage[index][1]}"
 
 
     def resize(self):
